@@ -9,7 +9,8 @@ import * as tf from '@tensorflow/tfjs';
 })
 export class AppComponent implements OnInit {
   linearModel!: tf.Sequential;
-  imageprediction: any[] = [];
+  imagePrediction: any[] = [];
+  videoPrediction: any[] = [];
   predictedNumber!: string;
   model!: tf.LayersModel;
   predictions: any[] = [];
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
   imgSrc: any;
   @ViewChild('img')
   public imageEl!: ElementRef;
-
+  @ViewChild('video')
+  video!: ElementRef;
   @ViewChild(DrawableDirective)
   canvas!: DrawableDirective;
 
@@ -72,10 +74,27 @@ export class AppComponent implements OnInit {
         this.imgSrc = res.target.result;
         setTimeout(async () => {
           const imgEl = this.imageEl.nativeElement;
-          this.imageprediction = await this.imageModel.classify(imgEl);
+          this.imagePrediction = await this.imageModel.classify(imgEl);
         }, 0);
       };
     }
+  }
+
+  async ngAfterViewInit() {
+    const vid = this.video.nativeElement;
+
+    if (navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then((stream) => {
+          vid.srcObject = stream;
+        })
+        .catch((err0r) => {
+          console.log('Something went wrong!');
+        });
+    }
+    setInterval(async () => {
+      this.videoPrediction = await this.imageModel.classify(this.video.nativeElement);
+    }, 3000);
   }
 
   clear() {
