@@ -1,0 +1,111 @@
+<header>
+  <nav class="nav-extended blue-grey darken-4">
+    <div class="nav-wrapper">
+      <a class="brand-logo">&nbsp; Object and Digit Detection Using TensorFlow</a>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a class="active">TensorFlow</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h1>Digit Recognizer</h1>
+        <span>Draw a number form 0 to 9 inside the box below</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s6">
+        <div class="wrapper">
+          <canvas drawable (newImage)="predict($event)"></canvas>
+        </div>
+      </div>
+      <div class="col s6">
+        <h4>Predicted Number: {{predictedNumber}}</h4>
+        <button class="btn red" (click)="clear()">Clear</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="col s6">
+        <h5>TensorFlow Predictions</h5>
+        <app-chart [data]="predictions"></app-chart>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <h2>Image Object Detection</h2>
+        <div *ngIf="loading"><small>Module Is loading...</small></div>
+        <div>
+
+          <form>
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>File</span>
+                <input type="file" (change)="fileChangeEvent($event)">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Upload one or more files">
+              </div>
+            </div>
+          </form>
+          <div class="col s6">
+            <img [src]="imgSrc" #img *ngIf="imgSrc" class="circle" height='300px' />
+          </div>
+          <div class="col s6">
+            <ul>
+              <li *ngIf="imageprediction[0] as pred">
+                <h4>Prediction: {{pred.className}}</h4>
+              </li>
+            </ul>
+          </div>
+          <table *ngIf='imageprediction'>
+            <thead>
+              <tr>
+                <th>Prediction Name</th>
+                <th>Prediction Probability</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let prediction of imageprediction">
+                <td>{{prediction.className}}</td>
+                <td>{{prediction.probability}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="page-footer blue-grey darken-4">
+  <div class="container">
+    <div class="row">
+      <div class="col l6 s12">
+        <h5 class="white-text">D/BSE/19/0004</h5>
+        <p class="grey-text text-lighten-4">Software Engineering</p>
+        <p class="grey-text text-lighten-4">CS Wanigasooriya</p>
+      </div>
+      <div class="col l4 offset-l2 s12">
+        <h5 class="white-text">Links</h5>
+        <ul>
+          <li><a class="grey-text text-lighten-3"
+              href="https://github.com/CSWanigasooriya">https://github.com/CSWanigasooriya</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright">
+    <div class="container">
+      © 2021 All Rights Reserved to Chamath Wanigasooriya
+      <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
+    </div>
+  </div>
+</footer>
